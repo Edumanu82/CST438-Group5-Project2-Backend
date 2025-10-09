@@ -1,17 +1,20 @@
 package com.example.VocabApp.domain;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 @Entity
 @Table(name = "user_words")
 public class UserWord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_word_id")
     private Long userWordId;
 
-    @ManyToOne
-    @JoinColumn(name = "userid")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userid", nullable = false)
     private User user;
 
-    @ManyToOne @JoinColumn(name = "word_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "word_id", nullable = false)
     private Word word;
 
 
@@ -56,6 +59,19 @@ public class UserWord {
     }
     public void setLastReviewed(LocalDateTime lastReviewed) {
         this.lastReviewed = lastReviewed;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserWord userWord = (UserWord) o;
+        return Objects.equals(userWordId, userWord.userWordId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userWordId);
     }
 
 }
