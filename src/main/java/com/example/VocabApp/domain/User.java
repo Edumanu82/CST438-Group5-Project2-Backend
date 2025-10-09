@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Objects;
 
 
 
@@ -22,6 +23,16 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserWord> userWords = new HashSet<>();
+
+    public void addUserWord(UserWord uw) {
+        userWords.add(uw);
+        uw.setUser(this);
+    }
+
+    public void removeUserWord(UserWord uw) {
+        userWords.remove(uw);
+        uw.setUser(null);
+    }
 
     public Long getUserId() {
         return userId;
@@ -46,6 +57,21 @@ public class User {
     }
     public void setUsername(String username) {
         this.username = username;
+    }
+    public Set<UserWord> getUserWords() { return userWords; }
+    public void setUserWords(Set<UserWord> userWords) { this.userWords = userWords; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(userId, user.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
     }
     
 
