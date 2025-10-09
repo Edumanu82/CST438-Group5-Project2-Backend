@@ -18,7 +18,7 @@ private final WordRepository repo;
   @GetMapping public List<Word> all() { return repo.findAll(); }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Word> getWordById(@PathVariable Long id){
+  public ResponseEntity<Word> getWordById(@PathVariable("id") Long id){
     Optional<Word> word = repo.findById(id);
     return word.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
@@ -30,7 +30,7 @@ private final WordRepository repo;
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<?> updateWord(@PathVariable Long id, @RequestBody Word updated) {
+  public ResponseEntity<?> updateWord(@PathVariable("id") Long id, @RequestBody Word updated) {
     return repo.findById(id).map(existing -> {
       existing.setWord(updated.getWord());
       existing.setDefinition(updated.getDefinition());
@@ -41,7 +41,7 @@ private final WordRepository repo;
   }
 
   @DeleteMapping("/{id}") @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void delete(@PathVariable Long id) { repo.deleteById(id); }
+  public void delete(@PathVariable("id") Long id) { repo.deleteById(id); }
 
     
 }
