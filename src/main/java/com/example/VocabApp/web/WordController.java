@@ -12,7 +12,7 @@ import java.util.Optional;
 @CrossOrigin
 @RestController @RequestMapping("/api/words")
 public class WordController {
-private final WordRepository repo;
+  private final WordRepository repo;
   public WordController(WordRepository repo) { this.repo = repo; }
 
   @GetMapping public List<Word> all() { return repo.findAll(); }

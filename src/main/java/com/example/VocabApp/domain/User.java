@@ -17,7 +17,7 @@ public class User {
     private Long userId;
 
     private String oauthProvider;
-    private String oauth_prov_Id;
+    private String oauthProvId;
     private String username;
 
     @JsonIgnore
@@ -46,11 +46,11 @@ public class User {
     public void setOauthProvider(String oauthProvider) {
         this.oauthProvider = oauthProvider;
     }
-    public String getOauth_prov_Id() {
-        return oauth_prov_Id;
+    public String getOauthProvId() {
+        return oauthProvId;
     }
-    public void setOauth_prov_Id(String oauth_prov_Id) {
-        this.oauth_prov_Id = oauth_prov_Id;
+    public void setOauthProvId(String oauthProvId) {
+        this.oauthProvId = oauthProvId;
     }
     public String getUsername() {
         return username;

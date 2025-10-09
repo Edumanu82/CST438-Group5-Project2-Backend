@@ -24,7 +24,7 @@ public class UserWordController {
 
   @GetMapping
   public List<UserWord> list(@PathVariable Long userId) {
-    return links.findByUserId(userId);
+    return links.findByUserUserId(userId);
   }
 
   @PostMapping @ResponseStatus(HttpStatus.CREATED)

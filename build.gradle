@@ -27,6 +27,7 @@ dependencies {
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.4.1'
     runtimeOnly 'com.h2database:h2'
     testRuntimeOnly 'com.h2database:h2'
+	testImplementation 'com.h2database:h2:2.2.224'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
