@@ -1,14 +1,14 @@
-// package com.example.VocabApp;
+package com.example.VocabApp;
 
-// import org.junit.jupiter.api.Test;
-// import org.springframework.boot.test.context.SpringBootTest;
-// // import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+// import org.springframework.test.context.ActiveProfiles;
 
-// // @ActiveProfiles("test")      // ← important
-// @SpringBootTest
-// class VocabAppApplicationTests {
-//     @Test
-//     void contextLoads() {}
-// }
+// @ActiveProfiles("test")      // ← important
+@SpringBootTest
+class VocabAppApplicationTests {
+    @Test
+    void contextLoads() {}
+}
 
 
