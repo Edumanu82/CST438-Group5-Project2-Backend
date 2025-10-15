@@ -28,3 +28,27 @@ After running, Flyway records that migration in the history table so it won’t 
 Expected output:
 Flyway: Migrating schema `qcw4r0odq4lx4kbt` to version 2 - add_part_of_speech_to_words
 Flyway: Successfully applied 1 migration
+
+
+
+------------Alana's Update 10/13----------
+to manually load .env file contents onto local machine (this will not be done automatically like our last project):
+
+for windows:
+    Open a PowerShell terminal in the project root (where .env lives) and run:
+
+Get-Content .env | ForEach-Object {
+    if ($_ -match '^\s*([^#][^=]+)=(.*)$') {
+        $key = $matches[1].Trim()
+        $value = $matches[2].Trim()
+        [System.Environment]::SetEnvironmentVariable($key, $value)
+    }
+}
+
+
+for Mac / Linux:
+     users can run: export $(grep -v '^#' .env | xargs) in a bash/zsh shell.
+
+Then you can verify that one of the environment variables is loaded by running:
+    echo $env:SPRING_DATASOURCE_URL 
+You should see your MariaDB connection string printed in the terminal.
