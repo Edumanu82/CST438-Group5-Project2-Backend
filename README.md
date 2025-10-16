@@ -28,3 +28,12 @@ After running, Flyway records that migration in the history table so it won’t 
 Expected output:
 Flyway: Migrating schema `qcw4r0odq4lx4kbt` to version 2 - add_part_of_speech_to_words
 Flyway: Successfully applied 1 migration
+
+
+To run Docker Container run this commands:
+
+1. docker build -t vocabapp:latest .
+2. docker run -p 8080:8080 --env-file .env vocabapp:latest
+
+
+
