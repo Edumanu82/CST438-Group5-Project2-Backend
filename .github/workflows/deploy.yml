@@ -3,39 +3,39 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      - deployment  # Trigger only when pushing to 'deployment' branch
+    - deployment # Trigger only when pushing to 'deployment' branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '21'
+        distribution: 'temurin'
 
-      - name: Grant execute permission to Gradle wrapper
-        run: chmod +x ./gradlew
+    - name: Grant execute permission to Gradle wrapper
+      run: chmod +x ./gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew build
+    - name: Build with Gradle
+      run: ./gradlew build
 
-      - name: Install Heroku CLI
-        run: curl https://cli-assets.heroku.com/install.sh | sh
+    - name: Install Heroku CLI
+      run: curl https://cli-assets.heroku.com/install.sh | sh
 
-      - name: Set Heroku Git remote with API key
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: |
-          git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/vocabapp-group5.git
+    - name: Set Heroku Git remote with API key
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: |
+        git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/vocabapp-group5.git
 
-      - name: Deploy to Heroku
-        run: |
-          git push heroku HEAD:main -f
+    - name: Deploy to Heroku
+      run: |
+        git push heroku HEAD:main -f
