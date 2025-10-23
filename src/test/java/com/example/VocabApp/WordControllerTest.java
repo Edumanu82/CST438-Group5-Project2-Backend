@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -27,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(WordController.class)
 @Import(CorsConfig.class)
 @AutoConfigureMockMvc(addFilters = false)
+@ActiveProfiles("test")
 public class WordControllerTest {
     @Autowired
     private MockMvc mockMvc;
