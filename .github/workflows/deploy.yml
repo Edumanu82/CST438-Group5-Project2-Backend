@@ -24,6 +24,8 @@ jobs:
     - name: Grant execute permission to Gradle wrapper
       run: chmod +x ./gradlew
 
+    - name: Test with Gradle
+      run: ./gradlew test
     - name: Build with Gradle
       env:
         SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
@@ -33,7 +35,7 @@ jobs:
         SPRING_SECURITY_USERNAME: ${{ secrets.SPRING_SECURITY_USERNAME }}
         SPRING_SECURITY_PASSWORD: ${{ secrets.SPRING_SECURITY_PASSWORD }}
         SPRING_SECURITY_USER_ROLES: ${{ secrets.SPRING_SECURITY_USER_ROLES }}
-      run: ./gradlew build
+      run: ./gradlew build -x test
 
     - name: Install Heroku CLI
       run: curl https://cli-assets.heroku.com/install.sh | sh
