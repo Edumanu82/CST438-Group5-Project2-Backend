@@ -25,6 +25,14 @@ jobs:
       run: chmod +x ./gradlew
 
     - name: Build with Gradle
+      env:
+        SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
+        SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+        SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+        SPRING_DATASOURCE_DRIVER_CLASS_NAME: ${{ secrets.SPRING_DATASOURCE_DRIVER_CLASS_NAME }}
+        SPRING_SECURITY_USERNAME: ${{ secrets.SPRING_SECURITY_USERNAME }}
+        SPRING_SECURITY_PASSWORD: ${{ secrets.SPRING_SECURITY_PASSWORD }}
+        SPRING_SECURITY_USER_ROLES: ${{ secrets.SPRING_SECURITY_USER_ROLES }}
       run: ./gradlew build
 
     - name: Install Heroku CLI
