@@ -14,7 +14,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/", "/api/**").permitAll() // Allow public access to all API endpoints
+                        .requestMatchers("/", "/api/**", "/api/users/*/words/**").permitAll() // Allow public access to all API endpoints
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for API endpoints
                 .oauth2ResourceServer(oauth2 -> oauth2.disable()); // Disable OAuth2 resource server
