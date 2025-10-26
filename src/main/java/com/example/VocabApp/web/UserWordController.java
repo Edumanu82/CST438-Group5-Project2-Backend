@@ -3,6 +3,7 @@ package com.example.VocabApp.web;
 import com.example.VocabApp.domain.*;
 import com.example.VocabApp.repository.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,6 +26,13 @@ public class UserWordController {
   @GetMapping
   public List<UserWord> list(@PathVariable Long userId) {
     return links.findByUserUserId(userId);
+  }
+
+  @GetMapping("/{userWordId}")
+  public ResponseEntity<UserWord> getById(@PathVariable Long userId, @PathVariable Long userWordId) {
+    return links.findById(userWordId)
+      .map(ResponseEntity::ok)
+      .orElse(ResponseEntity.notFound().build());
   }
 
   @PostMapping @ResponseStatus(HttpStatus.CREATED)
