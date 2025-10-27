@@ -1,0 +1,51 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+    - deployment # Trigger only when pushing to 'deployment' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Grant execute permission to Gradle wrapper
+      run: chmod +x ./gradlew
+
+    - name: Test with Gradle
+      run: ./gradlew test
+    - name: Build with Gradle
+      env:
+        SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
+        SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+        SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+        SPRING_DATASOURCE_DRIVER_CLASS_NAME: ${{ secrets.SPRING_DATASOURCE_DRIVER_CLASS_NAME }}
+        SPRING_SECURITY_USERNAME: ${{ secrets.SPRING_SECURITY_USERNAME }}
+        SPRING_SECURITY_PASSWORD: ${{ secrets.SPRING_SECURITY_PASSWORD }}
+        SPRING_SECURITY_USER_ROLES: ${{ secrets.SPRING_SECURITY_USER_ROLES }}
+      run: ./gradlew build -x test
+
+    - name: Install Heroku CLI
+      run: curl https://cli-assets.heroku.com/install.sh | sh
+
+    - name: Set Heroku Git remote with API key
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: |
+        git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/vocabapp-group5.git
+
+    - name: Deploy to Heroku
+      run: |
+        git push heroku HEAD:main -f

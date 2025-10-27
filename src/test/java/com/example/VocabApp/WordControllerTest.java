@@ -8,10 +8,14 @@ import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
+import com.example.VocabApp.config.CorsConfig;
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -21,7 +25,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(WordController.class)
+@Import(CorsConfig.class)
 @AutoConfigureMockMvc(addFilters = false)
+@ActiveProfiles("test")
 public class WordControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -136,6 +142,27 @@ public class WordControllerTest {
 
         mockMvc.perform(delete("/api/words/1"))
                 .andExpect(status().isNoContent());
+    }
+    
+    @Test
+    void testInvalidPath_returnsNotFound() throws Exception {
+        // Misspelled path from the request: /ap/words (should be /api/words)
+        mockMvc.perform(get("/ap/words"))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    void testCorsPreflight_returnsCorsHeaders() throws Exception {
+    mockMvc.perform(options("/api/words")
+            .header("Origin", "http://example.com")
+            .header("Access-Control-Request-Method", "GET")
+            .header("Access-Control-Request-Headers", "Content-Type"))
+        .andExpect(status().isOk())
+        .andExpect(header().exists("Access-Control-Allow-Origin"))
+        .andExpect(header().exists("Access-Control-Allow-Methods"))
+        .andExpect(header().string("Access-Control-Allow-Methods", containsString("GET")))
+        .andExpect(header().exists("Access-Control-Allow-Headers"))
+        .andExpect(header().string("Access-Control-Allow-Headers", containsString("Content-Type")));
     }
     
 }
